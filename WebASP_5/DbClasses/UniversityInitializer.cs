@@ -16,8 +16,8 @@ namespace WebASP_5.DbClasses
             {
                 Student student = new Student
                 {
-                    FirstName = "Bob",
-                    LastName = "Marley",
+                    FirstName = "Боб",
+                    LastName = "Марли",
                     BirthDate = new DateTime(2000, 12, 12),
                     Email = "bobmarley@gmail.com",
                     Grant = 2000.0,
@@ -29,17 +29,17 @@ namespace WebASP_5.DbClasses
                 {
                     Id = student.Id,
                     Number = 4592,
-                    Series = "FN"
+                    Series = "ФН"
                 };
                 context.StudentCards.Add(studentCard);
 
                 Group group = new Group
                 {
-                    GroupName = "39PR31",
+                    GroupName = "39ПР31",
                     Students = new List<Student> { student }
                 };
                 context.Groups.Add(group);
-                context.Groups.Add(new Group { GroupName = "PV217" });
+                context.Groups.Add(new Group { GroupName = "ПВ217" });
 
                 Subject subject = new Subject
                 {

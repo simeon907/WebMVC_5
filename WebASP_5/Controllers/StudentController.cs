@@ -14,12 +14,12 @@ namespace WebASP_5.Controllers
 {
     public class StudentController : Controller
     {
-        private UniversityContext db = new UniversityContext();
+        private UniversityContext _context = new UniversityContext();
 
         // GET: Student
         public async Task<ActionResult> Index()
         {
-            var students = db.Students.Include(s => s.StudentCard);
+            var students = _context.Students.Include(s => s.StudentCard);
             return View(await students.ToListAsync());
         }
 
@@ -30,7 +30,7 @@ namespace WebASP_5.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await _context.Students.FindAsync(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -41,7 +41,10 @@ namespace WebASP_5.Controllers
         // GET: Student/Create
         public ActionResult Create()
         {
-            ViewBag.Id = new SelectList(db.StudentCards, "Id", "Series");
+            ViewBag.Groups = new SelectList(_context.Groups, "Id", "GroupName");
+
+            ViewBag.Subjects = _context.Subjects.ToList();
+
             return View();
         }
 
@@ -54,12 +57,12 @@ namespace WebASP_5.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Students.Add(student);
-                await db.SaveChangesAsync();
+                _context.Students.Add(student);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(db.StudentCards, "Id", "Series", student.Id);
+            ViewBag.Id = new SelectList(_context.StudentCards, "Id", "Series", student.Id);
             return View(student);
         }
 
@@ -70,12 +73,12 @@ namespace WebASP_5.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await _context.Students.FindAsync(id);
             if (student == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Id = new SelectList(db.StudentCards, "Id", "Series", student.Id);
+            ViewBag.Id = new SelectList(_context.StudentCards, "Id", "Series", student.Id);
             return View(student);
         }
 
@@ -88,11 +91,11 @@ namespace WebASP_5.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(student).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                _context.Entry(student).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Id = new SelectList(db.StudentCards, "Id", "Series", student.Id);
+            ViewBag.Id = new SelectList(_context.StudentCards, "Id", "Series", student.Id);
             return View(student);
         }
 
@@ -103,7 +106,7 @@ namespace WebASP_5.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await _context.Students.FindAsync(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -116,9 +119,12 @@ namespace WebASP_5.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Student student = await db.Students.FindAsync(id);
-            db.Students.Remove(student);
-            await db.SaveChangesAsync();
+            Student student = await _context.Students.FindAsync(id);
+
+            _context.StudentCards.Load();//чтобы студент удалился
+
+            _context.Students.Remove(student);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -126,7 +132,7 @@ namespace WebASP_5.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }

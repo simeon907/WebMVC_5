@@ -7,12 +7,12 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Новий студент", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.StudentCard.Series)
+            @Html.DisplayNameFor(model => model.Group.GroupName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FirstName)
@@ -38,7 +38,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.StudentCard.Series)
+            @Html.DisplayFor(modelItem => item.Group.GroupName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FirstName)
@@ -59,9 +59,9 @@
             @Html.DisplayFor(modelItem => item.PhotoFile)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Редагувати", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Детальніше", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Видалити", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

@@ -1,4 +1,5 @@
-﻿@model WebASP_5.Models.Student
+﻿@using WebASP_5.Models
+@model Student
 
 @{
     ViewBag.Title = "Create";
@@ -7,10 +8,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Student</h4>
         <hr />
@@ -56,16 +57,45 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PhotoFile, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Group.GroupName, "Група", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PhotoFile, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PhotoFile, "", new { @class = "text-danger" })
+                @Html.DropDownList("Groups", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Group.GroupName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
+            @Html.Label("Предмети", htmlAttributes: new { @class = "control-label col-md-2" })
+
+            <div class="col-md-10">
+                @foreach (Subject item in ViewBag.Subjects)
+                {
+                    if(Model!=null)
+                    {
+
+                    }
+                    else
+                    {
+                        <input type="checkbox" name="subjects" value="@item.Id" />
+                    }
+                    <span>&nbsp;@item.SubjectName</span>
+                    <br />
+                }
+            
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.PhotoFile, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PhotoFile, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PhotoFile, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Створити" class="btn btn-default" />
             </div>
         </div>
     </div>
