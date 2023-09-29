@@ -17,7 +17,7 @@ namespace WebASP_5.DbClasses
                 Student student = new Student
                 {
                     FirstName = "Боб",
-                    LastName = "Марли",
+                    LastName = "Марлі",
                     BirthDate = new DateTime(2000, 12, 12),
                     Email = "bobmarley@gmail.com",
                     Grant = 2000.0,
@@ -48,9 +48,10 @@ namespace WebASP_5.DbClasses
                 subject.Students.Add(student);
                 subject.Teachers.Add(new Teacher
                 {
-                    LastName = "Simpson",
-                    FirstName = "Homer",
-                    BirthDate = new DateTime(1984, 10, 18)
+                    LastName = "Сімпсон",
+                    FirstName = "Гомер",
+                    BirthDate = new DateTime(1984, 10, 18),
+                    Email = "homersimpson999@gmail.com"
                 });
                 context.Subjects.Add(subject);
                 context.Subjects.Add(new Subject

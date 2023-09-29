@@ -1,5 +1,5 @@
 ﻿@using WebASP_5.Models
-@model Student
+@model Teacher
 
 @{
     ViewBag.Title = "Create";
@@ -7,13 +7,12 @@
 
 <h2>Create</h2>
 
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Student</h4>
+        <h4>Teacher</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -49,18 +48,24 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Grant, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Grant, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Grant, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            @Html.Label("Групи", htmlAttributes: new { @class = "control-label col-md-2" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Group.GroupName, "Група", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Groups", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Group.GroupName, "", new { @class = "text-danger" })
+                @foreach (Group item in ViewBag.Groups)
+                {
+                    if (Model != null)
+                    {
+                        <input type="checkbox" name="groups" value="@item.Id"
+                               @(Model.Groups.Contains(item) ? "checked=\"checked\"" : "") />
+                    }
+                    else
+                    {
+                        <input type="checkbox" name="groups" value="@item.Id" />
+                    }
+                    <span>&nbsp;@item.GroupName</span>
+                    <br />
+                }
+
             </div>
         </div>
 
@@ -70,10 +75,10 @@
             <div class="col-md-10">
                 @foreach (Subject item in ViewBag.Subjects)
                 {
-                    if(Model!=null)
+                    if (Model != null)
                     {
-                        <input type="checkbox" name="subjects" value="@item.Id" 
-                               @(Model.Subjects.Contains(item)?"checked=\"checked\"":"")/>
+                        <input type="checkbox" name="subjects" value="@item.Id"
+                               @(Model.Subjects.Contains(item) ? "checked=\"checked\"" : "") />
                     }
                     else
                     {
@@ -82,30 +87,18 @@
                     <span>&nbsp;@item.SubjectName</span>
                     <br />
                 }
-            
+
             </div>
         </div>
 
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.PhotoFile, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.PhotoFile, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.PhotoFile, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Створити" class="btn btn-default" />
+                <input type="submit" value="Додати" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Назад до списку", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

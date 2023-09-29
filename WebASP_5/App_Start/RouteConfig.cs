@@ -16,7 +16,7 @@ namespace WebASP_5
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "University", action = "Home", id = UrlParameter.Optional }
+                defaults: new { controller = "Teacher", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

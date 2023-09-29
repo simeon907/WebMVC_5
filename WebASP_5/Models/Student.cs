@@ -16,7 +16,7 @@ namespace WebASP_5.Models
         [Display(Name = "Прізвище")]
         [Required(ErrorMessage = "Поле має бути заповнено")]
         [StringLength(30, MinimumLength = 2, ErrorMessage = "від 2 до 30")]
-        //[RegularExpression("[А-ЯІЇҐЄ][^ЭЫЪЁ]{1}[а-яіїґє'][^ыэъё]{1,29}", ErrorMessage = "Некоректно")]
+        [RegularExpression("[А-ЯІЇҐЄ][^ЭЫЪЁ]{1}[а-яіїґє'][^ыэъё]{1,29}", ErrorMessage = "Некоректно")]
         public string LastName { get; set; }
 
         [Display(Name = "Ім'я")]
