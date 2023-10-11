@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebASP_5.DbClasses;
 using WebASP_5.Models;
+using WebASP_5.Models.ViewModels;
 
 namespace WebASP_5.Controllers
 {
@@ -53,8 +54,21 @@ namespace WebASP_5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,BirthDate,Email,Grant,PhotoFile")] Student student)
+        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,BirthDate,Email,Grant,PhotoFile,GroupId")] Student student, int[] subjects)
         {
+            if (subjects != null)
+            {
+                foreach (Subject item in _context.Subjects.Where(s=>subjects.Contains(s.Id)))
+                {
+                    student.Subjects.Add(item);
+                }
+            }
+
+            //if (true)
+            //{
+            //    ModelState.AddModelError("", "Неприпустима електронна адреса");
+            //}
+
             if (ModelState.IsValid)
             {
                 _context.Students.Add(student);
@@ -62,8 +76,100 @@ namespace WebASP_5.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Id = new SelectList(_context.StudentCards, "Id", "Series", student.Id);
+            //ViewBag.Id = new SelectList(_context.StudentCards, "Id", "Series", student.Id);
             return View(student);
+        }
+
+        public ActionResult CreateStudentModel()
+        {
+            ViewBag.ErrorMessage = null;
+
+            ViewBag.Groups = new SelectList(_context.Groups, "GroupName", "GroupName");
+
+            ViewBag.Subjects = _context.Subjects;
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateStudentModel(StudentModel model, int[] subjects)
+        {
+            if (subjects != null)
+            {
+                foreach (Subject subject in _context.Subjects.Where(s => subjects.Contains(s.Id)))
+                {
+                    (model.Subjects as List<Subject>).Add(subject);
+                }
+            }
+
+            if (_context.StudentCards.Any(s => s.Number == model.Number && s.Series == model.Series))
+            {
+                ModelState.AddModelError("", "Збіг номера та серії");
+            }
+
+            if(_context.Students.Any(s=>s.Email == model.Email))
+            {
+                ModelState.AddModelError("Email", "Збіг елекронної адреси");
+            }
+
+            //if (model.BirthDate >= DateTime.Today) { }
+            if ((DateTime.Today - model.BirthDate).TotalDays / 365.25 < 16) 
+            {
+                ModelState.AddModelError("BirthDate", "Несумісний вік");
+            }
+
+            //if (ModelState.IsValidField("LastName")) { }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Group group = _context.Groups.SingleOrDefault(g => g.GroupName == model.GroupName);
+                    if (group == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+
+                    if(model.Grant == 1111)
+                    {
+                        throw new Exception("Grant 1111");
+                    }
+
+                    StudentCard card = new StudentCard
+                    {
+                        Number = model.Number,
+                        Series = model.Series
+                    };
+
+                    Student student = new Student
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        BirthDate = model.BirthDate,
+                        Email = model.Email,
+                        Grant = model.Grant,
+                        StudentCard = card,
+                        Group = group, 
+                        Subjects = new List<Subject>(model.Subjects)
+                    };
+                    
+                    
+
+                    _context.Students.Add(student);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    ViewBag.ErrorMessage = "Помилка запису у базу даних";
+                }
+            }
+
+            ViewBag.Groups = new SelectList(_context.Groups, "Id", "GroupName");
+            ViewBag.Subjects = _context.Subjects.ToList();
+
+            return View(model);
         }
 
         // GET: Student/Edit/5

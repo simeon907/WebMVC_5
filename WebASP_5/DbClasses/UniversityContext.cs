@@ -19,5 +19,7 @@ namespace WebASP_5.DbClasses
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
         public virtual DbSet<StudentCard> StudentCards { get; set; }
+
+        public System.Data.Entity.DbSet<WebASP_5.Models.ViewModels.StudentModel> StudentModels { get; set; }
     }
 }

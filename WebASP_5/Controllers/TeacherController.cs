@@ -52,7 +52,7 @@ namespace WebASP_5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,BirthDate,Email")] Teacher teacher)
+        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,BirthDate,Email,PhotoFile")] Teacher teacher)
         {
             if (ModelState.IsValid)
             {

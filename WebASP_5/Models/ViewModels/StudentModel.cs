@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
+using System.Xml.Linq;
 
-namespace WebASP_5.Models
+namespace WebASP_5.Models.ViewModels
 {
-    public class Student
+    public class StudentModel
     {
-        [HiddenInput]
+        [System.Web.Mvc.HiddenInput]
         public int Id { get; set; }
 
         [Display(Name = "Прізвище")]
@@ -47,16 +47,28 @@ namespace WebASP_5.Models
         [Display(Name = "Фото")]
         public string PhotoFile { get; set; }
 
-        public virtual StudentCard StudentCard { get; set; }
 
-        public int? GroupId { get; set; }
-        public virtual Group Group { get; set; }
 
-        public virtual ICollection<Subject> Subjects { get; set; }
+        [Display(Name = "Номер картки")]
+        [Range(1000, 9999, ErrorMessage = "Від 1000 до 9999")]
+        public int Number { get; set; }
 
-        public Student()
-        {
-            Subjects = new List<Subject>();
-        }
+        [Display(Name = "Підтвердження номеру картки")]
+        [Compare("Number", ErrorMessage = "Значення не збігаються")]
+        public int NumberConfirm { get; set; }
+
+        [Display(Name = "Серія картки")]
+        public string Series { get; set; }
+
+
+
+        [Display(Name = "Група")]
+        [Required(ErrorMessage = "Поле має бути заповнено")]
+        [StringLength(20)]
+        [Index(IsUnique = true)]
+        //[RegularExpression("^[А-Я0-9][^ЭЫЪЁ]{1,19}$")]
+        public string GroupName { get; set; }
+
+        public IEnumerable<Subject> Subjects { get; set; }
     }
 }
