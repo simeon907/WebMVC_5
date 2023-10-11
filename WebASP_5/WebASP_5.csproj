@@ -127,6 +127,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\UniversityController.cs" />
@@ -137,6 +138,9 @@
     </Compile>
     <Compile Include="DbClasses\UniversityContext.cs" />
     <Compile Include="DbClasses\UniversityInitializer.cs" />
+    <Compile Include="DbClasses\Validators\PersonPropertyValidator.cs" />
+    <Compile Include="DbClasses\Validators\PersonValidationProvider.cs" />
+    <Compile Include="DbClasses\Validators\PersonValidator.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -145,6 +149,7 @@
     <Compile Include="Models\StudentCard.cs" />
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Models\Teacher.cs" />
+    <Compile Include="Models\ViewModels\Person.cs" />
     <Compile Include="Models\ViewModels\StudentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -223,6 +228,7 @@
     <Content Include="Views\Teacher\Edit.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Student\CreateStudentModel.cshtml" />
+    <Content Include="Views\Person\Create.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

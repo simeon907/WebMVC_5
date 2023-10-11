@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using WebASP_5.DbClasses;
+using WebASP_5.DbClasses.Validators;
 
 namespace WebASP_5
 {
@@ -20,6 +21,8 @@ namespace WebASP_5
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             Database.SetInitializer(new UniversityInitializer());
+
+            ModelValidatorProviders.Providers.Add(new PersonValidationProvider());
         }
     }
 }

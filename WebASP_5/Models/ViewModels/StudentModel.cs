@@ -58,6 +58,7 @@ namespace WebASP_5.Models.ViewModels
         public int NumberConfirm { get; set; }
 
         [Display(Name = "Серія картки")]
+        [System.Web.Mvc.Remote("RemoteSeries", "Student", HttpMethod = "post", ErrorMessage = "Неприпустима")]
         public string Series { get; set; }
 
 

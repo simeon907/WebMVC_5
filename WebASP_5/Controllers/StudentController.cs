@@ -173,6 +173,18 @@ namespace WebASP_5.Controllers
             return View(model);
         }
 
+        public JsonResult RemoteSeries(string series)
+        {
+            try
+            {
+                return Json(!series.ToUpper().Contains("Z"));
+            }
+            catch 
+            {
+                return Json(false);
+            }
+        }
+
         // GET: Student/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
