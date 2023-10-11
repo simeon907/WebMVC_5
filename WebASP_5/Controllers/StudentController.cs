@@ -92,7 +92,8 @@ namespace WebASP_5.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateStudentModel(StudentModel model, int[] subjects)
+        public async Task<ActionResult> CreateStudentModel([Bind(Include = "Id,LastName,FirstName,BirthDate,Email,Grant,PhotoFile,Number,NumberConfirm,Series,GroupName")]
+        StudentModel model, int[] subjects)
         {
             if (subjects != null)
             {
