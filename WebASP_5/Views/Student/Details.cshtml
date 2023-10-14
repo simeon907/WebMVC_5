@@ -58,16 +58,13 @@
             @Html.DisplayFor(model => model.Grant)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhotoFile)
-        </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.PhotoFile)
+            <h6>Група</h6>
+            @Html.DisplayFor(model => model.Group.GroupName)
         </dd>
 
         <dd>
-            <h6>Subjects</h6>
+            <h6>Предмети</h6>
             @foreach (WebASP_5.Models.Subject item in Model.Subjects)
             {
                 <p>@item.SubjectName</p>

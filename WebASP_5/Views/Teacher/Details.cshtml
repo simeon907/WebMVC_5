@@ -42,12 +42,20 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhotoFile)
-        </dt>
+        <dd>
+            <h6>Предмети</h6>
+            @foreach (WebASP_5.Models.Subject item in Model.Subjects)
+            {
+                <p>@item.SubjectName</p>
+            }
+        </dd>
 
         <dd>
-            @Html.DisplayFor(model => model.PhotoFile)
+            <h6>Групи</h6>
+            @foreach (WebASP_5.Models.Group item in Model.Groups)
+            {
+                <p>@item.GroupName</p>
+            }
         </dd>
 
     </dl>

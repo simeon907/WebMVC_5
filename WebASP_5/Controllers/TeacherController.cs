@@ -52,13 +52,59 @@ namespace WebASP_5.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,BirthDate,Email,PhotoFile")] Teacher teacher)
+        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,BirthDate,Email,PhotoFile")] Teacher teacher,
+            int[] subjects, int[] groups)
         {
+            if (subjects != null && groups != null)
+            {
+                foreach (Subject subject in _context.Subjects.Where(s => subjects.Contains(s.Id)))
+                {
+                    (teacher.Subjects as List<Subject>).Add(subject);
+                }
+
+                foreach (Group group in _context.Groups.Where(g => groups.Contains(g.Id)))
+                {
+                    (teacher.Groups as List<Group>).Add(group);
+                }
+
+                if (_context.Teachers.Any(t => t.Email == teacher.Email))
+                {
+                    ModelState.AddModelError("Email", "Збіг елекронної адреси");
+                }
+
+                if ((DateTime.Today - teacher.BirthDate).TotalDays / 365.25 < 16)
+                {
+                    ModelState.AddModelError("BirthDate", "Несумісний вік");
+                }
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Teachers.Add(teacher);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                try
+                {
+                    if (teacher.Groups == null || teacher.Subjects == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    }
+
+                    Teacher t = new Teacher
+                    {
+                        FirstName = teacher.FirstName,
+                        LastName = teacher.LastName,
+                        BirthDate = teacher.BirthDate,
+                        Email = teacher.Email,
+                        Groups = new List<Group>(teacher.Groups),
+                        Subjects = new List<Subject>(teacher.Subjects)
+                    };
+
+                    _context.Teachers.Add(t);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    ViewBag.ErrorMessage = "Помилка запису у базу даних";
+                }
             }
 
             return View(teacher);
