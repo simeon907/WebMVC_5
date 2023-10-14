@@ -18,7 +18,7 @@ namespace WebASP_5.Models
         [Required(ErrorMessage = "Поле має бути заповнено")]
         [StringLength(20)]
         [Index(IsUnique = true)]
-        [RegularExpression("^[А-Я0-9][^ЭЫЪЁ]{1,19}$")]
+        [RegularExpression("^[А-Я0-9][^ЭЫЪЁ]{1,19}$", ErrorMessage = "Некоректно")]
         public string GroupName { get; set; }
 
         public virtual ICollection<Student> Students { get; set; }

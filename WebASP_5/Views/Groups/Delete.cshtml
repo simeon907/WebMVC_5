@@ -1,0 +1,32 @@
+﻿@model WebASP_5.Models.Group
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Видалити</h2>
+
+<h3>Чи ви впевнені, що хочете видалити цю групу?</h3>
+<div>
+    <h4>Group</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroupName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-default" /> |
+            @Html.ActionLink("Назад до списку", "Index")
+        </div>
+    }
+</div>

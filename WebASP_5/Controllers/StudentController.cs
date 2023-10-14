@@ -177,7 +177,7 @@ namespace WebASP_5.Controllers
         {
             try
             {
-                return Json(!series.ToUpper().Contains("Z"));
+                return Json(!series.ToUpper().Contains("Z"), JsonRequestBehavior.AllowGet);
             }
             catch 
             {

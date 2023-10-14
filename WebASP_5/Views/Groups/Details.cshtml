@@ -1,0 +1,26 @@
+﻿@model WebASP_5.Models.Group
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Детальніше</h2>
+
+<div>
+    <h4>Група</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroupName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Редагувати", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Назад до списку", "Index")
+</p>
